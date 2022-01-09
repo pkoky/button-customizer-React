@@ -1,140 +1,153 @@
+import { isDisabled } from '@testing-library/user-event/dist/utils';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Input() {
+function Input(props) {
+  const buttonStyle = {
+    color: props.textColor,
+    background: props.backGround,
+    opacity: props.opacity,
+    borderRadius: props.borderRadius + '%',
+    fontSize: props.fontSize + 'px',
+  }
   return (
     <div>
-      <input type="button"/>
+      <input type="button" value={props.buttonText} style={ buttonStyle } disabled={props.isDisabled}/>
     </div>
   )
 }
 
-function Color() {
-  const [textColor, setTextColor] = useState(null)
+function Color(props) {
   return (
     <div>
       <label>color</label>
       <input 
         type="color" 
         onChange={(e) => {
-          setTextColor(e.target.value)
+          props.onChange(e.target.value)
         }
       }/>
-      <h1 style={{ color: textColor }}>Text Color</h1>
     </div>
   )
 }
 
-function BackgoundColor() {
-  const [backGround, setBackGround] = useState('white');
+function BackgoundColor(props) {
   return (
     <div>
       <label>backgroundColor</label>
       <input 
         type="color"
         onChange={(e) => 
-          setBackGround(e.target.value)
+          props.onChange(e.target.value)
         }
       />
-      <h1 style={{ background: backGround }}>Back Ground Color</h1>
     </div>
   )
 }
 
-function Opacity() {
-  const [opacity, setOpacity] = useState('1');
+function Opacity(props) {
   return (
     <div>
       <label>opacity</label>
       <input 
-        type="range" min="0" max="1" step="0.1" 
+        type="range" min="0" max="1" step="0.1" value={props.opacity}
         onChange={(e) => 
-          setOpacity(e.target.value)
+          props.onChange(e.target.value)
         }
       />
-      <span style={{ opacity: opacity }}>{opacity}</span>
+      <span>{props.opacity}</span>
     </div>
   )
 }
 
-function BorderRadius() {
-  const [borderRadius, setBorderRadius] = useState(50)
+function BorderRadius(props) {
   return (
     <div>
       <label>borderRadius</label>
       <input 
-        type="range" min="10" max="50" step="1"
+        type="range" min="10" max="50" step="1" value={props.borderRadius}
         onChange={(e) => 
-          setBorderRadius(e.target.value)
+          props.onChange(e.target.value)
         }
       />
-      <span>{ borderRadius }</span>
-      <div style={{ height: 40, width: 40, background: 'blue', borderRadius: borderRadius + '%'}}></div>
+      <span>{ props.borderRadius }</span>
+      <div style={{ height: 40, width: 40, background: 'blue', borderRadius: props.borderRadius + '%'}}></div>
     </div>
   )
 }
 
-function FontSize() {
-  const [fontSize, setFontSize] = useState(40);
+function FontSize(props) {
   return (
     <div>
       <label>fontSize</label>
       <input 
-        type="range" min="10" max="40" step="1"
+        type="range" min="10" max="40" step="1" value={props.fontSize}
         onChange={(e) =>
-          setFontSize(e.target.value)
+          props.onChange(e.target.value)
         }
       />
-      <span style={{ fontSize: fontSize + 'px' }}>{ fontSize }</span>
+      <span>{ props.fontSize }</span>
     </div>
   )
 }
 
-function Disabled() {
-  const [isDisabled, setIsDisabled] = useState(false);
+function Disabled(props) {
   return (
     <div>
       <label>disabled</label>
       <input 
         type="checkbox"
         onChange={() => 
-          setIsDisabled(!isDisabled)
+          props.onChange()
         }
       />
-      { isDisabled }
-      <button disabled={isDisabled}>disabled</button>
     </div>
   )
 }
 
-function ButtonText() {
-  const [buttonText, setButtonText] = useState();
+function ButtonText(props) {
   return (
     <div>
       <label>Button Text</label>
       <input 
         type="text"
         onChange={(e) =>
-          setButtonText(e.target.value)
+          props.onChange(e.target.value)
         }
       />
-      <h3 style={{ color: 'blue'}}>{ buttonText }</h3>
     </div>
   )
 } 
 
 function App() {
+  const [textColor, setTextColor] = useState();
+  const [backGround, setBackGround] = useState('white');
+  const [opacity, setOpacity] = useState(1);
+  const [borderRadius, setBorderRadius] = useState(10);
+  const [fontSize, setFontSize] = useState(40);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [buttonText, setButtonText] = useState('');
   return (
     <div>
-      <Input />
-      <Color />
-      <BackgoundColor />
-      <Opacity />
-      <BorderRadius />
-      <FontSize />
-      <Disabled />
-      <ButtonText />
+      <div>
+        <Input 
+          textColor={textColor} 
+          backGround={backGround} 
+          opacity={opacity}
+          borderRadius={borderRadius}
+          fontSize={fontSize}
+          isDisabled={isDisabled}
+          buttonText={buttonText}
+        />
+      </div>
+      <Color onChange={(value) => { setTextColor(value) }}/>
+      <BackgoundColor onChange={(value) => { setBackGround(value)}} />
+      <Opacity onChange={(value) => { setOpacity(value)}} opacity={opacity} />
+      <BorderRadius onChange={(value) => { setBorderRadius(value)}} borderRadius={borderRadius}/>
+      <FontSize onChange={(value) => { setFontSize(value)}} fontSize={fontSize} />
+      <Disabled onChange={() => { setIsDisabled(!isDisabled)}} />
+      <ButtonText onChange={(value) => { setButtonText(value)}} />
     </div>
   )
 }

@@ -108,6 +108,22 @@ function Disabled() {
   )
 }
 
+function ButtonText() {
+  const [buttonText, setButtonText] = useState();
+  return (
+    <div>
+      <label>Button Text</label>
+      <input 
+        type="text"
+        onChange={(e) =>
+          setButtonText(e.target.value)
+        }
+      />
+      <h3>{ buttonText }</h3>
+    </div>
+  )
+} 
+
 function App() {
   return (
     <div>
@@ -118,6 +134,7 @@ function App() {
       <BorderRadius />
       <FontSize />
       <Disabled />
+      <ButtonText />
     </div>
   )
 }

@@ -119,7 +119,7 @@ function ButtonText() {
           setButtonText(e.target.value)
         }
       />
-      <h3>{ buttonText }</h3>
+      <h3 style={{ color: 'blue'}}>{ buttonText }</h3>
     </div>
   )
 } 
